@@ -18,6 +18,7 @@ type User struct {
 	DeletedAt gorm.DeletedAt `gorm:"column:deleted_at"`
 
 	Password Password `gorm:"foreignkey:UserID;references:ID"`
+	Posts    []Post   `gorm:"foreignkey:UserID;references:ID"`
 }
 
 // TableName gives table name of model

@@ -14,8 +14,8 @@ import (
 
 // UserController data type
 type UserController struct {
-	service services.UserService
 	logger  lib.Logger
+	service services.UserService
 }
 
 // NewUserController creates new user controller

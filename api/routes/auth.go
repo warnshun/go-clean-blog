@@ -5,15 +5,15 @@ import (
 	"github.com/dipeshdulal/clean-gin/lib"
 )
 
-// AuthRoutes struct
-type AuthRoutes struct {
+// AuthRoute struct
+type AuthRoute struct {
 	logger         lib.Logger
 	handler        lib.RequestHandler
 	authController controllers.AuthController
 }
 
 // Setup user routes
-func (s AuthRoutes) Setup() {
+func (s AuthRoute) Setup() {
 	s.logger.Info("Setting up routes")
 	auth := s.handler.Gin.Group("/auth")
 	{
@@ -22,13 +22,13 @@ func (s AuthRoutes) Setup() {
 	}
 }
 
-// NewAuthRoutes creates new user controller
-func NewAuthRoutes(
+// NewAuthRoute creates new user controller
+func NewAuthRoute(
 	handler lib.RequestHandler,
 	authController controllers.AuthController,
 	logger lib.Logger,
-) AuthRoutes {
-	return AuthRoutes{
+) AuthRoute {
+	return AuthRoute{
 		handler:        handler,
 		logger:         logger,
 		authController: authController,

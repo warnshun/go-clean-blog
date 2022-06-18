@@ -100,7 +100,7 @@ func (c AuthController) Register(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(200, gin.H{
+	ctx.JSON(http.StatusCreated, gin.H{
 		"message": "register successfully",
 	})
 }

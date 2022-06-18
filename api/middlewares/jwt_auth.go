@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/dipeshdulal/clean-gin/constants"
 	"github.com/dipeshdulal/clean-gin/lib"
 	"github.com/dipeshdulal/clean-gin/services"
 	"github.com/gin-gonic/gin"
@@ -36,8 +37,9 @@ func (m JWTAuthMiddleware) Handler() gin.HandlerFunc {
 		t := strings.Split(authHeader, " ")
 		if len(t) == 2 {
 			authToken := t[1]
-			authorized, err := m.service.Authorize(authToken)
-			if authorized {
+			claims, err := m.service.Authorize(authToken)
+			if claims != nil {
+				c.Set(constants.JWTToken, claims.JWTToken)
 				c.Next()
 				return
 			}
