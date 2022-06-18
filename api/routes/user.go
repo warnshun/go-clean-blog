@@ -10,7 +10,7 @@ import (
 type UserRoutes struct {
 	logger         lib.Logger
 	handler        lib.RequestHandler
-	userController controllers.User
+	userController controllers.UserController
 	authMiddleware middlewares.JWTAuthMiddleware
 }
 
@@ -31,7 +31,7 @@ func (s UserRoutes) Setup() {
 func NewUserRoutes(
 	logger lib.Logger,
 	handler lib.RequestHandler,
-	userController controllers.User,
+	userController controllers.UserController,
 	authMiddleware middlewares.JWTAuthMiddleware,
 ) UserRoutes {
 	return UserRoutes{

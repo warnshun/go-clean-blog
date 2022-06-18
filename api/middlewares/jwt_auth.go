@@ -11,14 +11,14 @@ import (
 
 // JWTAuthMiddleware middleware for jwt authentication
 type JWTAuthMiddleware struct {
-	service services.Auth
+	service services.AuthService
 	logger  lib.Logger
 }
 
 // NewJWTAuthMiddleware creates new jwt auth middleware
 func NewJWTAuthMiddleware(
 	logger lib.Logger,
-	service services.Auth,
+	service services.AuthService,
 ) JWTAuthMiddleware {
 	return JWTAuthMiddleware{
 		service: service,

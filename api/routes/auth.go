@@ -9,7 +9,7 @@ import (
 type AuthRoutes struct {
 	logger         lib.Logger
 	handler        lib.RequestHandler
-	authController controllers.Auth
+	authController controllers.AuthController
 }
 
 // Setup user routes
@@ -25,7 +25,7 @@ func (s AuthRoutes) Setup() {
 // NewAuthRoutes creates new user controller
 func NewAuthRoutes(
 	handler lib.RequestHandler,
-	authController controllers.Auth,
+	authController controllers.AuthController,
 	logger lib.Logger,
 ) AuthRoutes {
 	return AuthRoutes{

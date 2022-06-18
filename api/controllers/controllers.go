@@ -4,6 +4,6 @@ import "go.uber.org/fx"
 
 // Module exported for initializing application
 var Module = fx.Options(
-	fx.Provide(NewAuth),
-	fx.Provide(NewUser),
+	fx.Provide(NewAuthController),
+	fx.Provide(NewUserController),
 )

@@ -12,20 +12,20 @@ import (
 	"gorm.io/gorm"
 )
 
-// Auth struct
-type Auth struct {
+// AuthController struct
+type AuthController struct {
 	logger      lib.Logger
-	service     services.Auth
-	userService services.User
+	service     services.AuthService
+	userService services.UserService
 }
 
-// NewAuth creates new controller
-func NewAuth(
+// NewAuthController creates new controller
+func NewAuthController(
 	logger lib.Logger,
-	service services.Auth,
-	userService services.User,
-) Auth {
-	return Auth{
+	service services.AuthService,
+	userService services.UserService,
+) AuthController {
+	return AuthController{
 		logger:      logger,
 		service:     service,
 		userService: userService,
@@ -33,7 +33,7 @@ func NewAuth(
 }
 
 // Login signs in user
-func (c Auth) Login(ctx *gin.Context) {
+func (c AuthController) Login(ctx *gin.Context) {
 	// Currently not checking for username and password
 	// Can add the logic later if necessary.
 	var login dtos.UserLogin
@@ -69,7 +69,7 @@ func (c Auth) Login(ctx *gin.Context) {
 }
 
 // Register registers user
-func (c Auth) Register(ctx *gin.Context) {
+func (c AuthController) Register(ctx *gin.Context) {
 	var register dtos.UserRegister
 
 	if err := ctx.ShouldBindJSON(&register); err != nil {
