@@ -2,6 +2,7 @@ package services
 
 import (
 	"errors"
+	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/dipeshdulal/clean-gin/lib"
@@ -43,9 +44,9 @@ func (s JWTAuthService) Authorize(tokenString string) (bool, error) {
 // CreateToken creates jwt auth token
 func (s JWTAuthService) CreateToken(user models.User) string {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"id":    user.ID,
-		"name":  user.Name,
-		"email": *user.Email,
+		"id":         user.ID,
+		"username":   user.Username,
+		"created_at": time.Now().UnixMilli(),
 	})
 
 	tokenString, err := token.SignedString([]byte(s.env.JWTSecret))

@@ -43,6 +43,6 @@ func (jwt JWTAuthController) SignIn(c *gin.Context) {
 func (jwt JWTAuthController) Register(c *gin.Context) {
 	jwt.logger.Info("Register route called")
 	c.JSON(200, gin.H{
-		"message": "register route",
+		"message": "register route222",
 	})
 }

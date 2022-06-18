@@ -1,9 +1,8 @@
 -- +migrate Up
 
-CREATE TABLE IF NOT EXISTS `users` (
+CREATE TABLE IF NOT EXISTS `posts` (
     `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `username` VARCHAR(20) NOT NULL,
-    `nickname` VARCHAR(20),
+    `content` VARCHAR(256) NOT NULL,
     `created_at` DATETIME NOT NULL,
     `updated_at` DATETIME NOT NULL,
     `deleted_at` DATETIME,
@@ -12,4 +11,4 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 -- +migrate Down
 
-DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `posts`;
