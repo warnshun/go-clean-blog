@@ -38,7 +38,7 @@ func (s User) GetAllUser() (users []models.User, err error) {
 }
 
 // CreateUser call to create the user
-func (s User) CreateUser(user models.User) error {
+func (s User) CreateUser(user *models.User) error {
 	return s.repository.Create(&user).Error
 }
 
