@@ -9,22 +9,22 @@ import (
 	"github.com/dipeshdulal/clean-gin/models"
 )
 
-// JWTAuthService service relating to authorization
-type JWTAuthService struct {
+// Auth service relating to authorization
+type Auth struct {
 	env    lib.Env
 	logger lib.Logger
 }
 
-// NewJWTAuthService creates a new auth service
-func NewJWTAuthService(env lib.Env, logger lib.Logger) JWTAuthService {
-	return JWTAuthService{
+// NewAuth creates a new auth service
+func NewAuth(env lib.Env, logger lib.Logger) Auth {
+	return Auth{
 		env:    env,
 		logger: logger,
 	}
 }
 
 // Authorize authorizes the generated token
-func (s JWTAuthService) Authorize(tokenString string) (bool, error) {
+func (s Auth) Authorize(tokenString string) (bool, error) {
 	token, err := jwt.Parse(tokenString, func(t *jwt.Token) (interface{}, error) {
 		return []byte(s.env.JWTSecret), nil
 	})
@@ -42,7 +42,7 @@ func (s JWTAuthService) Authorize(tokenString string) (bool, error) {
 }
 
 // CreateToken creates jwt auth token
-func (s JWTAuthService) CreateToken(user models.User) string {
+func (s Auth) CreateToken(user models.User) string {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"id":         user.ID,
 		"username":   user.Username,

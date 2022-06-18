@@ -6,20 +6,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// JWTAuthController struct
-type JWTAuthController struct {
+// Auth struct
+type Auth struct {
 	logger      lib.Logger
-	service     services.JWTAuthService
-	userService services.UserService
+	service     services.Auth
+	userService services.User
 }
 
-// NewJWTAuthController creates new controller
-func NewJWTAuthController(
+// NewAuth creates new controller
+func NewAuth(
 	logger lib.Logger,
-	service services.JWTAuthService,
-	userService services.UserService,
-) JWTAuthController {
-	return JWTAuthController{
+	service services.Auth,
+	userService services.User,
+) Auth {
+	return Auth{
 		logger:      logger,
 		service:     service,
 		userService: userService,
@@ -27,7 +27,7 @@ func NewJWTAuthController(
 }
 
 // SignIn signs in user
-func (jwt JWTAuthController) SignIn(c *gin.Context) {
+func (jwt Auth) SignIn(c *gin.Context) {
 	jwt.logger.Info("SignIn route called")
 	// Currently not checking for username and password
 	// Can add the logic later if necessary.
@@ -40,7 +40,7 @@ func (jwt JWTAuthController) SignIn(c *gin.Context) {
 }
 
 // Register registers user
-func (jwt JWTAuthController) Register(c *gin.Context) {
+func (jwt Auth) Register(c *gin.Context) {
 	jwt.logger.Info("Register route called")
 	c.JSON(200, gin.H{
 		"message": "register route222",

@@ -12,22 +12,22 @@ import (
 	"gorm.io/gorm"
 )
 
-// UserController data type
-type UserController struct {
-	service services.UserService
+// User data type
+type User struct {
+	service services.User
 	logger  lib.Logger
 }
 
-// NewUserController creates new user controller
-func NewUserController(userService services.UserService, logger lib.Logger) UserController {
-	return UserController{
+// NewUser creates new user controller
+func NewUser(userService services.User, logger lib.Logger) User {
+	return User{
 		service: userService,
 		logger:  logger,
 	}
 }
 
 // GetOneUser gets one user
-func (u UserController) GetOneUser(c *gin.Context) {
+func (u User) GetOneUser(c *gin.Context) {
 	paramID := c.Param("id")
 
 	id, err := strconv.Atoi(paramID)
@@ -55,7 +55,7 @@ func (u UserController) GetOneUser(c *gin.Context) {
 }
 
 // GetUser gets the user
-func (u UserController) GetUser(c *gin.Context) {
+func (u User) GetUser(c *gin.Context) {
 	users, err := u.service.GetAllUser()
 	if err != nil {
 		u.logger.Error(err)
@@ -64,7 +64,7 @@ func (u UserController) GetUser(c *gin.Context) {
 }
 
 // SaveUser saves the user
-func (u UserController) SaveUser(c *gin.Context) {
+func (u User) SaveUser(c *gin.Context) {
 	user := models.User{}
 	trxHandle := c.MustGet(constants.DBTransaction).(*gorm.DB)
 
@@ -88,12 +88,12 @@ func (u UserController) SaveUser(c *gin.Context) {
 }
 
 // UpdateUser updates user
-func (u UserController) UpdateUser(c *gin.Context) {
+func (u User) UpdateUser(c *gin.Context) {
 	c.JSON(200, gin.H{"data": "user updated"})
 }
 
 // DeleteUser deletes user
-func (u UserController) DeleteUser(c *gin.Context) {
+func (u User) DeleteUser(c *gin.Context) {
 	paramID := c.Param("id")
 
 	id, err := strconv.Atoi(paramID)
