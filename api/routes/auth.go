@@ -17,7 +17,7 @@ func (s AuthRoutes) Setup() {
 	s.logger.Info("Setting up routes")
 	auth := s.handler.Gin.Group("/auth")
 	{
-		auth.POST("/login", s.authController.SignIn)
+		auth.POST("/login", s.authController.Login)
 		auth.POST("/register", s.authController.Register)
 	}
 }

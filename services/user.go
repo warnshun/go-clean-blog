@@ -27,9 +27,9 @@ func (s User) WithTrx(trxHandle *gorm.DB) User {
 	return s
 }
 
-// GetOneUser gets one user
-func (s User) GetOneUser(id uint) (user models.User, err error) {
-	return user, s.repository.Find(&user, id).Error
+// GetUser gets one user by username
+func (s User) GetUserByUsername(username string) (user models.User, err error) {
+	return user, s.repository.Preload("Password").Find(&user, "username = ?", username).Error
 }
 
 // GetAllUser get all the user

@@ -16,6 +16,8 @@ type User struct {
 	CreatedAt time.Time      `gorm:"column:created_at;autoCreateTime:milli"`
 	UpdatedAt time.Time      `gorm:"column:updated_at;autoUpdateTime:milli"`
 	DeletedAt gorm.DeletedAt `gorm:"column:deleted_at"`
+
+	Password Password `gorm:"foreignkey:UserID;references:ID"`
 }
 
 // TableName gives table name of model

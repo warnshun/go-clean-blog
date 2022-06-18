@@ -14,10 +14,9 @@ import (
 
 // Auth struct
 type Auth struct {
-	logger          lib.Logger
-	service         services.Auth
-	userService     services.User
-	passwordService services.Password
+	logger      lib.Logger
+	service     services.Auth
+	userService services.User
 }
 
 // NewAuth creates new controller
@@ -25,22 +24,43 @@ func NewAuth(
 	logger lib.Logger,
 	service services.Auth,
 	userService services.User,
-	passwordService services.Password,
 ) Auth {
 	return Auth{
-		logger:          logger,
-		service:         service,
-		userService:     userService,
-		passwordService: passwordService,
+		logger:      logger,
+		service:     service,
+		userService: userService,
 	}
 }
 
-// SignIn signs in user
-func (c Auth) SignIn(ctx *gin.Context) {
-	c.logger.Info("SignIn route called")
+// Login signs in user
+func (c Auth) Login(ctx *gin.Context) {
 	// Currently not checking for username and password
 	// Can add the logic later if necessary.
-	user, _ := c.userService.GetOneUser(uint(1))
+	var login dtos.UserLogin
+	if err := ctx.ShouldBindJSON(&login); err != nil {
+		c.logger.Error(err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	user, err := c.userService.GetUserByUsername(login.Username)
+	if err != nil {
+		c.logger.Error(err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	if login.Password != user.Password.Password {
+		ctx.JSON(http.StatusUnauthorized, gin.H{
+			"error": "password is incorrect",
+		})
+		return
+	}
+
 	token := c.service.CreateToken(user)
 	ctx.JSON(200, gin.H{
 		"message": "logged in successfully",
@@ -64,26 +84,15 @@ func (c Auth) Register(ctx *gin.Context) {
 
 	user := models.User{
 		Username: register.Username,
+		Password: models.Password{
+			Password: register.Password,
+		},
 	}
+
 	// create user
 	if err := c.userService.
 		WithTrx(trxHandle).
 		CreateUser(&user); err != nil {
-		c.logger.Error(err)
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"error": err.Error(),
-		})
-		return
-	}
-
-	ps := models.Password{
-		UserID:   user.ID,
-		Password: register.Password,
-	}
-	// create password
-	if err := c.passwordService.
-		WithTrx(trxHandle).
-		CreatePassword(&ps); err != nil {
 		c.logger.Error(err)
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),

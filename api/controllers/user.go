@@ -38,7 +38,8 @@ func (u User) GetOneUser(c *gin.Context) {
 		})
 		return
 	}
-	user, err := u.service.GetOneUser(uint(id))
+
+	user, err := u.service.GetUserByUsername(string(id))
 
 	if err != nil {
 		u.logger.Error(err)

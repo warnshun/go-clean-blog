@@ -2,6 +2,8 @@
   "go.inferGopath": false,
   "cSpell.words": [
     "dtos",
-    "gorm"
+    "foreignkey",
+    "gorm",
+    "Preload"
   ]
 }
