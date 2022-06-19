@@ -27,13 +27,18 @@ func (s UserService) WithTrx(trxHandle *gorm.DB) UserService {
 	return s
 }
 
+// GetUser gets one user
+func (s UserService) GetUser(id uint) (user models.User, err error) {
+	return user, s.repository.First(&user, "id = ?", id).Error
+}
+
 // GetUser gets one user by username
 func (s UserService) GetUserByUsername(username string) (user models.User, err error) {
 	return user, s.repository.Preload("Password").First(&user, "username = ?", username).Error
 }
 
-// GetAllUser get all the user
-func (s UserService) GetAllUser() (users []models.User, err error) {
+// GetAllUsers get all the user
+func (s UserService) GetAllUsers() (users []models.User, err error) {
 	return users, s.repository.Find(&users).Error
 }
 

@@ -5,10 +5,12 @@ import (
 	"strconv"
 
 	"github.com/dipeshdulal/clean-gin/constants"
+	"github.com/dipeshdulal/clean-gin/dtos"
 	"github.com/dipeshdulal/clean-gin/lib"
 	"github.com/dipeshdulal/clean-gin/models"
 	"github.com/dipeshdulal/clean-gin/services"
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/copier"
 	"gorm.io/gorm"
 )
 
@@ -39,7 +41,10 @@ func (u UserController) GetOneUser(c *gin.Context) {
 		return
 	}
 
-	user, err := u.service.GetUserByUsername(string(id))
+	user, err := u.service.GetUser(uint(id))
+
+	var dto dtos.User
+	copier.Copy(&dto, user)
 
 	if err != nil {
 		u.logger.Error(err)
@@ -50,18 +55,21 @@ func (u UserController) GetOneUser(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{
-		"data": user,
+		"data": dto,
 	})
 
 }
 
-// GetUser gets the user
-func (u UserController) GetUser(c *gin.Context) {
-	users, err := u.service.GetAllUser()
+// GetAllUsers gets the user
+func (u UserController) GetAllUsers(c *gin.Context) {
+	users, err := u.service.GetAllUsers()
 	if err != nil {
 		u.logger.Error(err)
 	}
-	c.JSON(200, gin.H{"data": users})
+
+	var dtos []dtos.User
+	copier.Copy(&dtos, users)
+	c.JSON(200, gin.H{"data": dtos})
 }
 
 // SaveUser saves the user
