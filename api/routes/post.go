@@ -18,6 +18,7 @@ func (r PostRoute) Setup() {
 	api := r.handler.Gin.Group("/api").Use(r.authMiddleware.Handler())
 	{
 		// post
+		api.GET("/post/:id", r.postController.GetPost)
 		api.GET("/post", r.postController.GetAllPosts)
 		api.POST("/post", r.postController.AddPost)
 	}

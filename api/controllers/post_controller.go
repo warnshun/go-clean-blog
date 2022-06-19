@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/dipeshdulal/clean-gin/constants"
 	"github.com/dipeshdulal/clean-gin/dtos"
@@ -26,6 +27,29 @@ func NewPostController(
 		logger:  logger,
 		service: postService,
 	}
+}
+
+func (c PostController) GetPost(ctx *gin.Context) {
+	paramID := ctx.Param("id")
+
+	id, err := strconv.Atoi(paramID)
+	if err != nil {
+		c.logger.Error(err)
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
+		})
+		return
+	}
+
+	post, err := c.service.GetPost(uint(id))
+	if err != nil {
+		c.logger.Error(err)
+	}
+
+	var dto dtos.Post
+	copier.Copy(&dto, post)
+
+	ctx.JSON(200, gin.H{"data": dto})
 }
 
 func (c PostController) GetAllPosts(ctx *gin.Context) {

@@ -24,6 +24,10 @@ func (s PostService) WithTrx(trxHandle *gorm.DB) PostService {
 	return s
 }
 
+func (s PostService) GetPost(id uint) (post models.Post, err error) {
+	return post, s.repository.Preload("Photos").Preload("Author").First(&post, "id = ?", id).Error
+}
+
 func (s PostService) GetAllPosts() (posts []models.Post, err error) {
 	return posts, s.repository.Preload("Photos").Preload("Author").Find(&posts).Error
 }
