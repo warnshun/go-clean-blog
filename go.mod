@@ -16,6 +16,7 @@ require (
 )
 
 require (
+	github.com/jinzhu/copier v0.3.5
 	github.com/rs/cors/wrapper/gin v0.0.0-20220223021805-a4a5ce87d5a2
 	go.uber.org/fx v1.17.1
 )

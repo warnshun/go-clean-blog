@@ -1,9 +1,13 @@
 {
   "go.inferGopath": false,
   "cSpell.words": [
+    "dipeshdulal",
     "dtos",
     "foreignkey",
+    "gonic",
     "gorm",
+    "jinzhu",
+    "middlewares",
     "Preload"
   ]
 }

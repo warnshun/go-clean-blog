@@ -9,6 +9,7 @@ import (
 	"github.com/dipeshdulal/clean-gin/models"
 	"github.com/dipeshdulal/clean-gin/services"
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/copier"
 	"gorm.io/gorm"
 )
 
@@ -25,6 +26,19 @@ func NewPostController(
 		logger:  logger,
 		service: postService,
 	}
+}
+
+func (c PostController) GetAllPosts(ctx *gin.Context) {
+	posts, err := c.service.GetAllPosts()
+	if err != nil {
+		c.logger.Error(err)
+	}
+
+	var dtos []dtos.Post
+
+	copier.Copy(&dtos, posts)
+
+	ctx.JSON(200, gin.H{"data": dtos})
 }
 
 func (c PostController) AddPost(ctx *gin.Context) {
