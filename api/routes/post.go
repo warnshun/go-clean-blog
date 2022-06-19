@@ -21,6 +21,8 @@ func (r PostRoute) Setup() {
 		api.GET("/post/:id", r.postController.GetPost)
 		api.GET("/post", r.postController.GetAllPosts)
 		api.POST("/post", r.postController.AddPost)
+
+		api.POST("/post/:id/like", r.postController.SwitchLikePost)
 	}
 }
 

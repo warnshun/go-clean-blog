@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
 
@@ -113,5 +114,60 @@ func (c PostController) AddPost(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusCreated, gin.H{
 		"message": "post created successfully",
+	})
+}
+
+func (c PostController) SwitchLikePost(ctx *gin.Context) {
+	var input dtos.PostLike
+	if err := ctx.ShouldBindJSON(&input); err != nil {
+		c.logger.Error(err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	token := ctx.MustGet(constants.JWTToken).(services.JWTToken)
+
+	trxHandle := ctx.MustGet(constants.DBTransaction).(*gorm.DB)
+	svTx := c.service.WithTrx(trxHandle)
+
+	postLike, err := svTx.GetPostLikeByPostIDandUserID(input.PostID, token.ID)
+	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+		c.logger.Error(err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		postLike.PostID = input.PostID
+		postLike.UserID = token.ID
+		if err := svTx.CreatePostLike(&postLike); err != nil {
+			c.logger.Error(err)
+			ctx.JSON(http.StatusInternalServerError, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+
+		ctx.JSON(http.StatusCreated, gin.H{
+			"message": "post liked successfully",
+		})
+
+		return
+	}
+
+	if err := svTx.DeletePostLike(postLike.ID); err != nil {
+		c.logger.Error(err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"message": "post unliked successfully",
 	})
 }
