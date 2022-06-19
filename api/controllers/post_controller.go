@@ -53,7 +53,16 @@ func (c PostController) GetPost(ctx *gin.Context) {
 }
 
 func (c PostController) GetAllPosts(ctx *gin.Context) {
-	posts, err := c.service.GetAllPosts()
+	var queryParam dtos.PostQuery
+
+	if err := ctx.ShouldBindQuery(&queryParam); err != nil {
+		c.logger.Error(err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	posts, err := c.service.GetAllPosts(queryParam)
 	if err != nil {
 		c.logger.Error(err)
 	}
