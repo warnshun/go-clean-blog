@@ -9,6 +9,8 @@ type PostLike struct {
 	UserID uint `gorm:"column:user_id"`
 
 	CreatedAt time.Time `gorm:"column:created_at;autoCreateTime:milli"`
+
+	Post Post `gorm:"foreignkey:ID;references:PostID"`
 }
 
 func (PostLike) TableName() string {

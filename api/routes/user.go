@@ -22,9 +22,6 @@ func (r UserRoute) Setup() {
 		// user
 		api.GET("/user", r.userController.GetAllUsers)
 		api.GET("/user/:id", r.userController.GetOneUser)
-		api.POST("/user", r.userController.SaveUser)
-		api.POST("/user/:id", r.userController.UpdateUser)
-		api.DELETE("/user/:id", r.userController.DeleteUser)
 	}
 }
 

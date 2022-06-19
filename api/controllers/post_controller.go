@@ -171,3 +171,21 @@ func (c PostController) SwitchLikePost(ctx *gin.Context) {
 		"message": "post unliked successfully",
 	})
 }
+
+func (c PostController) GetAllLikedPosts(ctx *gin.Context) {
+	token := ctx.MustGet(constants.JWTToken).(services.JWTToken)
+
+	posts, err := c.service.GetAllLikedPostsByUserID(token.ID)
+	if err != nil {
+		c.logger.Error(err)
+	}
+
+	postDtos := make([]dtos.Post, 0, len(posts))
+	for _, post := range posts {
+		var dto dtos.Post
+		copier.Copy(&dto, post.Post)
+		postDtos = append(postDtos, dto)
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"data": postDtos})
+}

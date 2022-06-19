@@ -28,6 +28,7 @@ func NewPostService(
 
 func (s PostService) WithTrx(trxHandle *gorm.DB) PostService {
 	s.repository = s.repository.WithTrx(trxHandle)
+	s.likeRepository = s.likeRepository.WithTrx(trxHandle)
 	return s
 }
 
@@ -47,13 +48,22 @@ func (s PostService) GetAllPostsByUserID(userID uint) (posts []models.Post, err 
 	return posts, s.repository.Preload("Photos").Preload("Author").Find(&posts, "user_id = ?", userID).Error
 }
 
+func (s PostService) GetAllLikedPostsByUserID(userID uint) (likedPost []models.PostLike, err error) {
+	return likedPost, s.likeRepository.
+		Preload("Post.Photos").
+		Preload("Post.Author").
+		Preload("Post").
+		Find(&likedPost, "user_id = ?", userID).
+		Error
+}
+
 func (s PostService) CreatePost(post *models.Post) error {
 	return s.repository.Create(&post).Error
 }
 
 func (s PostService) GetPostLikeByPostIDandUserID(postID, userID uint) (postLike models.PostLike, err error) {
 	return postLike,
-		s.repository.
+		s.likeRepository.
 			Where("post_id = ?", postID).
 			Where("user_id = ?", userID).
 			First(&postLike).
@@ -61,9 +71,9 @@ func (s PostService) GetPostLikeByPostIDandUserID(postID, userID uint) (postLike
 }
 
 func (s PostService) CreatePostLike(postLike *models.PostLike) error {
-	return s.repository.Create(&postLike).Error
+	return s.likeRepository.Create(&postLike).Error
 }
 
 func (s PostService) DeletePostLike(id uint) error {
-	return s.repository.Delete(&models.PostLike{}, "id = ?", id).Error
+	return s.likeRepository.Delete(&models.PostLike{}, "id = ?", id).Error
 }

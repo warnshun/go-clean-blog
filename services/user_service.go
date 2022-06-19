@@ -46,13 +46,3 @@ func (s UserService) GetAllUsers() (users []models.User, err error) {
 func (s UserService) CreateUser(user *models.User) error {
 	return s.repository.Create(&user).Error
 }
-
-// UpdateUser updates the user
-func (s UserService) UpdateUser(user models.User) error {
-	return s.repository.Save(&user).Error
-}
-
-// DeleteUser deletes the user
-func (s UserService) DeleteUser(id uint) error {
-	return s.repository.Delete(&models.User{}, id).Error
-}
