@@ -1,7 +1,8 @@
 package bootstrap
 
 import (
-	"github.com/dipeshdulal/clean-gin/commands"
+	"go-clean-blog/commands"
+
 	"github.com/spf13/cobra"
 )
 

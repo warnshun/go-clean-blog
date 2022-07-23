@@ -3,12 +3,13 @@ package controllers
 import (
 	"net/http"
 
-	"github.com/dipeshdulal/clean-gin/api/apitool"
+	"go-clean-blog/api/apitool"
 
-	"github.com/dipeshdulal/clean-gin/dtos"
-	"github.com/dipeshdulal/clean-gin/lib"
-	"github.com/dipeshdulal/clean-gin/models"
-	"github.com/dipeshdulal/clean-gin/services"
+	"go-clean-blog/dtos"
+	"go-clean-blog/lib"
+	"go-clean-blog/models"
+	"go-clean-blog/services"
+
 	"github.com/gin-gonic/gin"
 )
 

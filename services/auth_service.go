@@ -6,9 +6,10 @@ import (
 	"fmt"
 	"time"
 
+	"go-clean-blog/lib"
+	"go-clean-blog/models"
+
 	"github.com/dgrijalva/jwt-go"
-	"github.com/dipeshdulal/clean-gin/lib"
-	"github.com/dipeshdulal/clean-gin/models"
 )
 
 type JWTToken struct {

@@ -1,10 +1,11 @@
 package services
 
 import (
-	"github.com/dipeshdulal/clean-gin/dtos"
-	"github.com/dipeshdulal/clean-gin/lib"
-	"github.com/dipeshdulal/clean-gin/models"
-	"github.com/dipeshdulal/clean-gin/repository"
+	"go-clean-blog/dtos"
+	"go-clean-blog/lib"
+	"go-clean-blog/models"
+	"go-clean-blog/repository"
+
 	"gorm.io/gorm"
 )
 

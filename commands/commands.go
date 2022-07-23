@@ -3,7 +3,8 @@ package commands
 import (
 	"context"
 
-	"github.com/dipeshdulal/clean-gin/lib"
+	"go-clean-blog/lib"
+
 	"github.com/spf13/cobra"
 	"go.uber.org/fx"
 	"go.uber.org/fx/fxevent"

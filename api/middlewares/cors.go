@@ -1,7 +1,8 @@
 package middlewares
 
 import (
-	"github.com/dipeshdulal/clean-gin/lib"
+	"go-clean-blog/lib"
+
 	cors "github.com/rs/cors/wrapper/gin"
 )
 

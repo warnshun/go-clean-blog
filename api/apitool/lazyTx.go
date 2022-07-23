@@ -3,8 +3,9 @@ package apitool
 import (
 	"sync"
 
-	"github.com/dipeshdulal/clean-gin/constants"
-	"github.com/dipeshdulal/clean-gin/lib"
+	"go-clean-blog/constants"
+	"go-clean-blog/lib"
+
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )

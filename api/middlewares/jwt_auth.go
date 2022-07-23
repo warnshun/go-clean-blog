@@ -4,9 +4,10 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/dipeshdulal/clean-gin/constants"
-	"github.com/dipeshdulal/clean-gin/lib"
-	"github.com/dipeshdulal/clean-gin/services"
+	"go-clean-blog/constants"
+	"go-clean-blog/lib"
+	"go-clean-blog/services"
+
 	"github.com/gin-gonic/gin"
 )
 

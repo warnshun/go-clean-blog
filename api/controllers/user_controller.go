@@ -4,9 +4,10 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/dipeshdulal/clean-gin/dtos"
-	"github.com/dipeshdulal/clean-gin/lib"
-	"github.com/dipeshdulal/clean-gin/services"
+	"go-clean-blog/dtos"
+	"go-clean-blog/lib"
+	"go-clean-blog/services"
+
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/copier"
 )

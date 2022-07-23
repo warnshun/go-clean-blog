@@ -1,7 +1,8 @@
 package main
 
 import (
-	"github.com/dipeshdulal/clean-gin/bootstrap"
+	"go-clean-blog/bootstrap"
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
 )

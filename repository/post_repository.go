@@ -1,7 +1,8 @@
 package repository
 
 import (
-	"github.com/dipeshdulal/clean-gin/lib"
+	"go-clean-blog/lib"
+
 	"gorm.io/gorm"
 )
 

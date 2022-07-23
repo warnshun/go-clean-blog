@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/dipeshdulal/clean-gin/models"
+	"go-clean-blog/models"
 )
 
 type Post struct {

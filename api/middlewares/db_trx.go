@@ -3,9 +3,10 @@ package middlewares
 import (
 	"net/http"
 
-	"github.com/dipeshdulal/clean-gin/api/apitool"
+	"go-clean-blog/api/apitool"
 
-	"github.com/dipeshdulal/clean-gin/lib"
+	"go-clean-blog/lib"
+
 	"github.com/gin-gonic/gin"
 )
 
