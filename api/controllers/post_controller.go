@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/dipeshdulal/clean-gin/api/apitool"
+
 	"github.com/dipeshdulal/clean-gin/constants"
 	"github.com/dipeshdulal/clean-gin/dtos"
 	"github.com/dipeshdulal/clean-gin/lib"
@@ -101,7 +103,8 @@ func (c PostController) AddPost(ctx *gin.Context) {
 		Content: postAdd.Content,
 	}
 
-	trxHandle := ctx.MustGet(constants.DBTransaction).(*gorm.DB)
+	// trxHandle := ctx.MustGet(constants.DBTransaction).(*gorm.DB)
+	trxHandle := apitool.GetTx(ctx)
 
 	if err := c.service.WithTrx(trxHandle).
 		CreatePost(&post); err != nil {
@@ -129,7 +132,8 @@ func (c PostController) SwitchLikePost(ctx *gin.Context) {
 
 	token := ctx.MustGet(constants.JWTToken).(services.JWTToken)
 
-	trxHandle := ctx.MustGet(constants.DBTransaction).(*gorm.DB)
+	// trxHandle := ctx.MustGet(constants.DBTransaction).(*gorm.DB)
+	trxHandle := apitool.GetTx(ctx)
 	svTx := c.service.WithTrx(trxHandle)
 
 	postLike, err := svTx.GetPostLikeByPostIDandUserID(input.PostID, token.ID)

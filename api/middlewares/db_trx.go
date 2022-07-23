@@ -3,7 +3,8 @@ package middlewares
 import (
 	"net/http"
 
-	"github.com/dipeshdulal/clean-gin/constants"
+	"github.com/dipeshdulal/clean-gin/api/apitool"
+
 	"github.com/dipeshdulal/clean-gin/lib"
 	"github.com/gin-gonic/gin"
 )
@@ -43,28 +44,29 @@ func (m DatabaseTrx) Setup() {
 	m.logger.Info("setting up database transaction middleware")
 
 	m.handler.Gin.Use(func(c *gin.Context) {
-		txHandle := m.db.DB.Begin()
-		m.logger.Info("beginning database transaction")
+		lazyTx := apitool.NewLazyTx(m.logger, m.db.DB)
 
-		defer func() {
-			if r := recover(); r != nil {
-				txHandle.Rollback()
-			}
-		}()
+		apitool.SetTx(c, lazyTx)
 
-		c.Set(constants.DBTransaction, txHandle)
 		c.Next()
+
+		if !lazyTx.IsOpen() {
+			return
+		}
+
+		// get lazyTx db
+		tx := apitool.GetTx(c)
 
 		// rollback transaction on server errors
 		if c.Writer.Status() == http.StatusInternalServerError {
 			m.logger.Info("rolling back transaction due to status code: 500")
-			txHandle.Rollback()
+			tx.Rollback()
 		}
 
 		// commit transaction on success status
 		if statusInList(c.Writer.Status(), []int{http.StatusOK, http.StatusCreated}) {
 			m.logger.Info("committing transactions")
-			if err := txHandle.Commit().Error; err != nil {
+			if err := tx.Commit().Error; err != nil {
 				m.logger.Error("trx commit error: ", err)
 			}
 		}

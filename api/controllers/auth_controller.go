@@ -3,13 +3,13 @@ package controllers
 import (
 	"net/http"
 
-	"github.com/dipeshdulal/clean-gin/constants"
+	"github.com/dipeshdulal/clean-gin/api/apitool"
+
 	"github.com/dipeshdulal/clean-gin/dtos"
 	"github.com/dipeshdulal/clean-gin/lib"
 	"github.com/dipeshdulal/clean-gin/models"
 	"github.com/dipeshdulal/clean-gin/services"
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
 // AuthController struct
@@ -80,7 +80,8 @@ func (c AuthController) Register(ctx *gin.Context) {
 		return
 	}
 
-	trxHandle := ctx.MustGet(constants.DBTransaction).(*gorm.DB)
+	// trxHandle := ctx.MustGet(constants.DBTransaction).(*gorm.DB)
+	trxHandle := apitool.GetTx(ctx)
 
 	user := models.User{
 		Username: register.Username,
